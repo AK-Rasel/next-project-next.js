@@ -34,3 +34,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+'node:13092) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)'
+
+Install : npm install punycode
+
+Updated next.config.mjs : 
+
+/** @type {import('next').NextConfig} */
+import { resolve } from 'path';
+
+const nextConfig = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Fixes npm packages that depend on `punycode` module
+      config.resolve.alias['punycode'] = resolve('node_modules/punycode/');
+    }
+    return config;
+  },
+};
+
+export default nextConfig;
+
